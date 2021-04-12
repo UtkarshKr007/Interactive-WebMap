@@ -1,16 +1,12 @@
 var mymap = L.map('mapid').setView([46.4296, -94.6859], 6);
 
-// Put token without URL restriction here for local development.
-// But remember to replace it with null before pushing to Github.
-var localToken = null; 
-
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/streets-v11',
     tileSize: 512,
     zoomOffset: -1,
-    accessToken: localToken ?? 'pk.eyJ1IjoidXRzMDA3IiwiYSI6ImNrbmUxeXQ3bzJjd2wybm4xbGphaWh4bXYifQ.RC2c1ZAAdwHBSgGyLRCcDg'
+    accessToken: 'pk.eyJ1IjoidXRzMDA3IiwiYSI6ImNrbmUxeXQ3bzJjd2wybm4xbGphaWh4bXYifQ.RC2c1ZAAdwHBSgGyLRCcDg'
 }).addTo(mymap);
 
 var Minneapolis = L.marker([44.9778, -93.2650]).addTo(mymap);
