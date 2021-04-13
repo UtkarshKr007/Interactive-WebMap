@@ -10,7 +10,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 var locations = [
-    {"name": "Minneapolis", "Lat": 44.9778, "Long": -93.2650},
+    {"name": "Minneapolis", "Lat": 44.9778, "Long": -93.2650 , "note": "Minneapolis is the starting point of this path."},
     {"name": "Morris", "Lat": 45.5919, "Long": -95.9189, "note": "Morris has a university or something. Check out their windmills"},
     {"name": "Wadena", "Lat": 46.4425, "Long": -95.1361},
     {"name": "New Ulm", "Lat": 44.3144, "Long": -94.4593},
@@ -44,7 +44,12 @@ function createGeoJSON(name, coords, popupContent = name) {
     }
 }
 
-function circleCovert(_feature, latlng) { return new L.circleMarker(latlng, {radius: 10, color: '#FF0000'}) }
+function circleCovert(_feature, latlng) { 
+    if (latlng.lat == 44.9778 && latlng.lng == -93.2650) {
+        return new L.circleMarker(latlng, {radius: 10, color: '#05D3F7'})
+    }
+    return new L.circleMarker(latlng, {radius: 10, color: '#FF0000'}) 
+}
 
 function onEachFeature(feature, layer) {
     if (feature.properties && feature.properties.popupContent) {
@@ -52,7 +57,7 @@ function onEachFeature(feature, layer) {
     }
 }
 
-var layerProcessing = { pointToLayer: circleCovert,onEachFeature }
+var layerProcessing = { pointToLayer: circleCovert, onEachFeature }
 
 var cityLayer = L.geoJSON(cities, layerProcessing).addTo(mymap);
 
@@ -61,6 +66,9 @@ var cityLayer = L.geoJSON(cities, layerProcessing).addTo(mymap);
 // Each of these layer objects has _latlng field which is an object of form {lat: value, lng: value}
 // Mapping these LatLng objects into an array allows us to use it with L.polyline()
 var latlngArray = Object.values(cityLayer._layers).map(layer => layer._latlng);
+
+// Add the first latlang feature to the end of the array again
+latlngArray.push(latlngArray[0]);
 
 var lineStyle={ "dashArray": [10,20], "weight": 5, "color": "#0000FF" }
 var fillStyle = { "weight": 5, "color": "#FFFFFF" }
